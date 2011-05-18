@@ -6,9 +6,8 @@
  *      @version  0.3
  */
  
-require_once('paths.php');
-require($path . 'config/database.php');
-require_once $plank_path . 'ActiveRecord/ActiveRecord.php';
+require BASE_PATH . 'config/database.php';
+require_once PLANK_PATH . 'ActiveRecord/ActiveRecord.php';
 
 try {
 	$db = new PDO("mysql:host=$host;dbname=$name", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
@@ -21,7 +20,7 @@ try {
 	ActiveRecord\Config::initialize(function($cfg) use ($connections)
 	{
 	  global $path;
-    $cfg->set_model_directory($path . 'app/models');
+    $cfg->set_model_directory(BASE_PATH . 'app/models');
     $cfg->set_connections($connections);
 	});
 } catch(PDOException $e) {

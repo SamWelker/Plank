@@ -1,14 +1,26 @@
 <?php
 $version = '0.2.1';
 
-session_start();
-require_once 'plank/routes.php';
-require_once CODE_PATH . 'routes.php';
+$path       = str_ireplace('index.php', '', $_SERVER['SCRIPT_FILENAME']);
+$urlpath    = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
+$plankpath = dirname(__FILE__) . '/';
+if(substr($path,   -1, 1) != '/') { $path   .= '/'; }
+if(substr($urlpath, 0, 1) != '/') { $urlpath = '/' . $urlpath; }
+define('BASE_PATH',  $path);
+define('URL_PATH',   $urlpath);
+define('PLANK_PATH', $plankpath);
 
 //	Theme path
-require($path . 'config/settings.php');
+require  BASE_PATH . 'config/settings.php';
 $themeurl = $urlpath . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
 $themedir = $path . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
+
+require PLANK_PATH . 'plank/database.php';
+require PLANK_PATH . 'plank/errors.php';
+require PLANK_PATH . 'plank/rendering.php';
+
+session_start();
+require BASE_PATH . 'routes.php';
 
 function throw403() {
   global $path, $urlpath;
@@ -28,28 +40,6 @@ function throw404() {
   ob_end_clean();
   render('layouts/application');
   exit;
-}
-
-$application_layout = 'application';
-
-function layout($layout) {
-  global $application_layout;
-  $application_layout = $layout;
-}
-
-function render($options = null) {
-  global $route, $path, $urlpath, $themeurl, $themedir, $content;
-  if (isset($options) === false || isset($options['view']) === false) {
-    $view = implode('/', $route);
-  } else if (is_string($options) === true) {
-    $view = $options;
-  }
-  if (is_array($options) === true) {
-    foreach ($options as $key => $value) { $$key = $value; }
-  }
-  $view = str_replace('..', '', $view) . '.php';
-  if (file_exists($themedir . $view) === true) { include $themedir . $view; }
-  else { include $path . 'app/views/' . $view; }
 }
 
 ob_start();
