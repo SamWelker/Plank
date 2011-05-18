@@ -16,7 +16,7 @@ $themeurl = $urlpath . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
 $themedir = $path . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
 
 require($path . 'config/database.php');
-require_once $path . 'lib/ActiveRecord/ActiveRecord.php';
+require_once $path . 'lib/Plank/ActiveRecord/ActiveRecord.php';
 
 try {
 	$db = new PDO("mysql:host=$host;dbname=$name", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
