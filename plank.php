@@ -1,9 +1,9 @@
 <?php
-$path    = str_ireplace('index.php', '', $_SERVER['SCRIPT_FILENAME']);
-$urlpath = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
+$path       = str_ireplace('index.php', '', $_SERVER['SCRIPT_FILENAME']);
+$urlpath    = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
+$plank_path = dirname(__FILE__) . '/';
 if (substr($path,   -1, 1) != '/') { $path   .= '/'; }
 if (substr($urlpath, 0, 1) != '/') { $urlpath = '/' . $urlpath; }
-
 
 $version = '0.2.1';
 
@@ -16,7 +16,7 @@ $themeurl = $urlpath . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
 $themedir = $path . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
 
 require($path . 'config/database.php');
-require_once $path . 'lib/Plank/ActiveRecord/ActiveRecord.php';
+require_once $plank_path . 'ActiveRecord/ActiveRecord.php';
 
 try {
 	$db = new PDO("mysql:host=$host;dbname=$name", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
