@@ -62,3 +62,8 @@ function plank_errors($number, $string, $file, $line, $context) {
 
     return true;
 }
+
+//  If debugging is turned on
+if(isset($debug)) {
+    set_error_handler('plank_errors', E_ALL);
+}
